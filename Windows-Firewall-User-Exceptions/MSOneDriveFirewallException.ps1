@@ -20,8 +20,8 @@ $ErrorActionPreference = "SilentlyContinue"
 $logPath = join-path -path $($env:LOCALAPPDATA) -ChildPath "\Temp\Install-MSOneDriveFirewallException.log"
 
 #Test if registry folder exists
-if ($true -ne (test-Path -Path "HKLM:\SOFTWARE\OS")) {
-    New-Item -Path "HKLM:\SOFTWARE\" -Name "OS" -Force
+if ($true -ne (test-Path -Path "HKLM:\SOFTWARE\CUSTOMER")) {
+    New-Item -Path "HKLM:\SOFTWARE\" -Name "CUSTOMER" -Force
 }
 
 #Enable forced rule creation, to cleanup any rules the user might have made, and set the standards imposed by this script (suggested setting $True).
