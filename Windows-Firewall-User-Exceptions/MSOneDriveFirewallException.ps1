@@ -55,8 +55,8 @@ Function Set-OneDriveFWRule($ProfileObj) {
             Get-NetFirewallApplicationFilter -Program $progPath -ErrorAction SilentlyContinue | Remove-NetFirewallRule -ErrorAction SilentlyContinue
 
             #Register package in registry
-            New-Item -Path "HKLM:\SOFTWARE\OS\" -Name "MSOneDriveFirewallException"
-            New-ItemProperty -Path "HKLM:\SOFTWARE\OS\MSOneDriveFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force            
+            New-Item -Path "HKLM:\SOFTWARE\CUSTOMER\" -Name "MSOneDriveFirewallException"
+            New-ItemProperty -Path "HKLM:\SOFTWARE\CUSTOMER\MSOneDriveFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force            
         }
         
         if (-not (Get-NetFirewallApplicationFilter -Program $progPath -ErrorAction SilentlyContinue)) {
@@ -66,8 +66,8 @@ Function Set-OneDriveFWRule($ProfileObj) {
             New-NetFirewallRule -DisplayName "$ruleName" -Direction Inbound -Profile Public,Private -Program $progPath -Action Block -Protocol Any
 
             #Register package in registry
-            New-Item -Path "HKLM:\SOFTWARE\OS\" -Name "MSOneDriveFirewallException"
-            New-ItemProperty -Path "HKLM:\SOFTWARE\OS\MSOneDriveFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force
+            New-Item -Path "HKLM:\SOFTWARE\CUSTOMER\" -Name "MSOneDriveFirewallException"
+            New-ItemProperty -Path "HKLM:\SOFTWARE\CUSTOMER\MSOneDriveFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force
         } else {
             Write-Verbose "Rule already exists!" -Verbose  
         }
