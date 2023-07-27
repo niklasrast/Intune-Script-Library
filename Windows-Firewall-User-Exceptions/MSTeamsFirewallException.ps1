@@ -20,8 +20,8 @@ $ErrorActionPreference = "SilentlyContinue"
 $logPath = join-path -path $($env:LOCALAPPDATA) -ChildPath "\Temp\Install-MSOneDriveFirewallException.log"
 
 #Test if registry folder exists
-if ($true -ne (test-Path -Path "HKLM:\SOFTWARE\OS")) {
-    New-Item -Path "HKLM:\SOFTWARE\" -Name "OS" -Force
+if ($true -ne (test-Path -Path "HKLM:\SOFTWARE\CUSTOMER")) {
+    New-Item -Path "HKLM:\SOFTWARE\" -Name "CUSTOMER" -Force
 }
 
 #Enable forced rule creation, to cleanup any rules the user might have made, and set the standards imposed by this script (suggested setting $True).
@@ -53,8 +53,8 @@ Function Set-TeamsFWRule($ProfileObj) {
             Get-NetFirewallApplicationFilter -Program $progPath -ErrorAction SilentlyContinue | Remove-NetFirewallRule -ErrorAction SilentlyContinue
 
             #Register package in registry
-            New-Item -Path "HKLM:\SOFTWARE\OS\" -Name "Microsoft-TeamsFirewallException"
-            New-ItemProperty -Path "HKLM:\SOFTWARE\OS\Microsoft-TeamsFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force            
+            New-Item -Path "HKLM:\SOFTWARE\CUSTOMER\" -Name "Microsoft-TeamsFirewallException"
+            New-ItemProperty -Path "HKLM:\SOFTWARE\CUSTOMER\Microsoft-TeamsFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force            
         }
         
         if (-not (Get-NetFirewallApplicationFilter -Program $progPath -ErrorAction SilentlyContinue)) {
@@ -64,8 +64,8 @@ Function Set-TeamsFWRule($ProfileObj) {
             New-NetFirewallRule -DisplayName "$ruleName" -Direction Inbound -Profile Public,Private -Program $progPath -Action Block -Protocol Any
 
             #Register package in registry
-            New-Item -Path "HKLM:\SOFTWARE\OS\" -Name "Microsoft-TeamsFirewallException"
-            New-ItemProperty -Path "HKLM:\SOFTWARE\OS\Microsoft-TeamsFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force
+            New-Item -Path "HKLM:\SOFTWARE\CUSTOMER\" -Name "Microsoft-TeamsFirewallException"
+            New-ItemProperty -Path "HKLM:\SOFTWARE\CUSTOMER\Microsoft-TeamsFirewallException" -Name $ProfileObj.FullName -PropertyType "String" -Value $progPath -Force
         } else {
             Write-Verbose "Rule already exists!" -Verbose  
         }
